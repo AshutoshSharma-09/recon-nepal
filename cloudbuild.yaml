@@ -1,59 +1,76 @@
 steps:
   # 1. Build Backend Image
   - name: 'gcr.io/cloud-builders/docker'
-    args: 
+    args:
       - 'build'
       - '-t'
-      - '$_REGION-docker.pkg.dev/$PROJECT_ID/$_REPO_NAME/backend:$COMMIT_SHA'
+      - 'gcr.io/$PROJECT_ID/recon-nepal-backend:$COMMIT_SHA'
       - '-t'
-      - '$_REGION-docker.pkg.dev/$PROJECT_ID/$_REPO_NAME/backend:latest'
+      - 'gcr.io/$PROJECT_ID/recon-nepal-backend:latest'
       - './backend'
     id: 'build-backend'
 
-  # 2. Build Frontend Image
+  # 2. Build Frontend Image (parallel with backend)
   - name: 'gcr.io/cloud-builders/docker'
-    args: 
+    args:
       - 'build'
       - '--build-arg'
       - 'NEXT_PUBLIC_API_URL=$_FRONTEND_API_URL'
       - '-t'
-      - '$_REGION-docker.pkg.dev/$PROJECT_ID/$_REPO_NAME/frontend:$COMMIT_SHA'
+      - 'gcr.io/$PROJECT_ID/recon-nepal-frontend:$COMMIT_SHA'
       - '-t'
-      - '$_REGION-docker.pkg.dev/$PROJECT_ID/$_REPO_NAME/frontend:latest'
+      - 'gcr.io/$PROJECT_ID/recon-nepal-frontend:latest'
       - './frontend'
     id: 'build-frontend'
     waitFor: ['-']
 
-  # 3. Build Nginx Image
+  # 3. Build Nginx Image (parallel with backend & frontend)
   - name: 'gcr.io/cloud-builders/docker'
-    args: 
+    args:
       - 'build'
       - '-t'
-      - '$_REGION-docker.pkg.dev/$PROJECT_ID/$_REPO_NAME/nginx:$COMMIT_SHA'
+      - 'gcr.io/$PROJECT_ID/recon-nepal-nginx:$COMMIT_SHA'
       - '-t'
-      - '$_REGION-docker.pkg.dev/$PROJECT_ID/$_REPO_NAME/nginx:latest'
+      - 'gcr.io/$PROJECT_ID/recon-nepal-nginx:latest'
       - './nginx'
     id: 'build-nginx'
     waitFor: ['-']
 
-  # 4. Push all Images to Artifact Registry
+  # 4. Push Backend Image
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', '$_REGION-docker.pkg.dev/$PROJECT_ID/$_REPO_NAME/backend', '--all-tags']
-    id: 'push-backend'
+    args: ['push', 'gcr.io/$PROJECT_ID/recon-nepal-backend:$COMMIT_SHA']
+    id: 'push-backend-sha'
     waitFor: ['build-backend']
 
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', '$_REGION-docker.pkg.dev/$PROJECT_ID/$_REPO_NAME/frontend', '--all-tags']
-    id: 'push-frontend'
+    args: ['push', 'gcr.io/$PROJECT_ID/recon-nepal-backend:latest']
+    id: 'push-backend-latest'
+    waitFor: ['build-backend']
+
+  # 5. Push Frontend Image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/recon-nepal-frontend:$COMMIT_SHA']
+    id: 'push-frontend-sha'
     waitFor: ['build-frontend']
 
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', '$_REGION-docker.pkg.dev/$PROJECT_ID/$_REPO_NAME/nginx', '--all-tags']
-    id: 'push-nginx'
+    args: ['push', 'gcr.io/$PROJECT_ID/recon-nepal-frontend:latest']
+    id: 'push-frontend-latest'
+    waitFor: ['build-frontend']
+
+  # 6. Push Nginx Image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/recon-nepal-nginx:$COMMIT_SHA']
+    id: 'push-nginx-sha'
     waitFor: ['build-nginx']
 
-  # --- Deployment Step (Example for Compute Engine via SSH) ---
-  # If you are deploying to a VM, you might uncomment this and configure it:
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/recon-nepal-nginx:latest']
+    id: 'push-nginx-latest'
+    waitFor: ['build-nginx']
+
+  # --- Deployment Step (Compute Engine via SSH) ---
+  # Uncomment and configure if deploying to a VM:
   # - name: 'gcr.io/cloud-builders/gcloud'
   #   entrypoint: 'bash'
   #   args:
@@ -65,18 +82,19 @@ steps:
   #         docker-compose up -d
   #       "
   #   id: 'deploy-vm'
-  #   waitFor: ['push-backend', 'push-frontend', 'push-nginx']
+  #   waitFor: ['push-backend-latest', 'push-frontend-latest', 'push-nginx-latest']
 
 images:
-  - '$_REGION-docker.pkg.dev/$PROJECT_ID/$_REPO_NAME/backend:$COMMIT_SHA'
-  - '$_REGION-docker.pkg.dev/$PROJECT_ID/$_REPO_NAME/frontend:$COMMIT_SHA'
-  - '$_REGION-docker.pkg.dev/$PROJECT_ID/$_REPO_NAME/nginx:$COMMIT_SHA'
+  - 'gcr.io/$PROJECT_ID/recon-nepal-backend:$COMMIT_SHA'
+  - 'gcr.io/$PROJECT_ID/recon-nepal-backend:latest'
+  - 'gcr.io/$PROJECT_ID/recon-nepal-frontend:$COMMIT_SHA'
+  - 'gcr.io/$PROJECT_ID/recon-nepal-frontend:latest'
+  - 'gcr.io/$PROJECT_ID/recon-nepal-nginx:$COMMIT_SHA'
+  - 'gcr.io/$PROJECT_ID/recon-nepal-nginx:latest'
 
 substitutions:
-  _REGION: 'us-central1'
-  _REPO_NAME: 'pms-repo' # Replace with your Artifact Registry repository name
-  _FRONTEND_API_URL: '/api' # Change if your frontend needs a different API URL at build time
-  # _VM_NAME: 'pms-instance'
+  _FRONTEND_API_URL: '/api'
+  # _VM_NAME: 'recon-nepal-instance'
   # _ZONE: 'us-central1-a'
 
 options:
