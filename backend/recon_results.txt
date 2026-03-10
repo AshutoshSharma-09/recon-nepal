@@ -1,0 +1,7 @@
+--- Match Results ---
+Total Matches:    500
+Auto Matches:     500
+Exceptions:       0
+Unmatched:        900
+AR Records in Output: 1000
+Sample AR Record: {'id': '779', 'Date': '2024-06-05', 'PortfolioID': 'P5438', 'VchID': 'VCH_MATCH_238', 'Transaction': 'Receive', 'Debit': 0.0, 'Credit': 13318.78, 'match_status': 'MATCHED', 'match_kind': 'AUTO', 'match_id': 'PMSCAR501', 'reason': 'Auto Match (Key+Txn)', 'validation_error': None}

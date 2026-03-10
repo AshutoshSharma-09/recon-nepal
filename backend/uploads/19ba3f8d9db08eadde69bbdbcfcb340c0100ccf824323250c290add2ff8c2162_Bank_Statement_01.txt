@@ -1,0 +1,25 @@
+Value Date    Portfolio ID     Reference No.              Amount           Type      
+-------------------------------------------------------------------------------------
+2025-02-04    NIBLHF877171     H-O-RCV846-75999           4770.29          Credit    
+2025-02-06    NIBLHF877171     H-O-PB580-81515            141,627.05       Debit     
+2025-02-10    NIBLHF877171     H-O-PB924-9554             265,605.83       Debit     
+2025-03-05    NIBLHF877171     ATM-WD-9355                175,610.00       Debit     
+2025-03-10    NIBLHF877171     ATM-WD-2568                372,887.74       Debit     
+2025-03-17    NIBLHF877171     ATM-WD-2871                48,208.29        Debit
+2025-03-22    NIBLHF877171     H-O-RCV123-12346           37,000.00        Credit
+2025-04-07    NIBLHF877171     H-O-PB105-41551            349,765.71       Debit     
+2025-05-15    NIBLHF877171     H-O-PB241-75925            473,739.97       Debit     
+2025-05-27    NIBLHF877171     H-O-RCV760-98146           317,627.93       Credit    
+2025-09-02    NIBLHF877171     H-O-RCV698-2448            3,077.66         Credit    
+2025-09-05    NIBLHF877171     H-O-PB774-7433             278,261.46       Debit     
+2025-09-16    NIBLHF877171     H-O-RCV347-68693           488,826.60       Debit     
+2025-09-22    NIBLHF877171     H-O-PB885-27946            397,025.87       Debit     
+2025-09-25    NIBLHF877171     H-O-RCV139-38946           453,594.59       Credit    
+2025-10-01    NIBLHF877171     H-O-PB845-42352            413,426.96       Debit     
+2025-10-06    NIBLHF877171     H-O-PB441-83109            256,866.38       Debit     
+2025-10-18    NIBLHF877171     H-O-RCV406-33823           89,692.01        Credit    
+2025-11-04    NIBLHF877171     ATM-WD-3801                170,535.92       Debit     
+2025-11-17    NIBLHF877171     H-O-PB699-30988            320,233.87       Debit     
+22-11-2025    NIBLHF877171     H-O-RCV551-90867           47,614.66        Credit    
+2025-12-29    NIBLHF877171     H-O-RCV701-98082           200,550.71       Credit 
+2025-12-29    NIBLHF877171     H-O-RCV701-98082           56,000.00        Credit 

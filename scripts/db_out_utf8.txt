@@ -1,0 +1,48 @@
+--- Checking ReconFiles ---
+FileID: 1 | Name: Bank_Statement_010.txt | Loaded: 2026-01-31 18:17:07.261923
+FileID: 2 | Name: Broker_Ledger_010.csv | Loaded: 2026-01-31 18:17:13.426170
+
+--- Checking ReconBatches ---
+BatchID: 1 | BankFileID: 1 | BrokerFileID: 2 | Status: BatchStatus.COMPLETED
+
+--- Checking StagingBankEntry ---
+ID: 1 | Ref: H-O-RCV846-75999 | PID: NIBLQK742715 | Amt: 4770.29 | FileID: 1
+ID: 2 | Ref: H-O-PB580-81515 | PID: NIBLHF877171 | Amt: -141627.05 | FileID: 1
+ID: 3 | Ref: H-O-PB924-9554 | PID: NIBLEF465327 | Amt: -265605.83 | FileID: 1
+ID: 4 | Ref: ATM-WD-9355 | PID: NIBLNM415321 | Amt: -175610.00 | FileID: 1
+ID: 5 | Ref: ATM-WD-2568 | PID: NIBLHT638995 | Amt: -372887.74 | FileID: 1
+ID: 6 | Ref: ATM-WD-2871 | PID: NIBLCT869307 | Amt: -48208.29 | FileID: 1
+ID: 8 | Ref: H-O-PB105-41551 | PID: NIBLOZ685231 | Amt: -349765.71 | FileID: 1
+ID: 9 | Ref: H-O-PB241-75925 | PID: NIBLES706148 | Amt: -473739.97 | FileID: 1
+ID: 10 | Ref: H-O-RCV760-98146 | PID: NIBLIZ314575 | Amt: 317627.93 | FileID: 1
+ID: 11 | Ref: H-O-RCV698-2448 | PID: NIBLKL158923 | Amt: 3077.66 | FileID: 1
+ID: 12 | Ref: H-O-PB774-7433 | PID: NIBLRT758824 | Amt: -278261.46 | FileID: 1
+ID: 13 | Ref: ATM-WD-3192 | PID: NIBLTB669835 | Amt: -488826.60 | FileID: 1
+ID: 14 | Ref: H-O-PB885-27946 | PID: NIBLFI361773 | Amt: -397025.87 | FileID: 1
+ID: 15 | Ref: H-O-RCV139-38946 | PID: NIBLQM386746 | Amt: 453594.59 | FileID: 1
+ID: 16 | Ref: H-O-PB845-42352 | PID: NIBLBK606576 | Amt: -413426.96 | FileID: 1
+ID: 17 | Ref: H-O-PB441-83109 | PID: NIBLYM343844 | Amt: -256866.38 | FileID: 1
+ID: 18 | Ref: H-O-RCV406-33823 | PID: NIBLUS238623 | Amt: 89692.01 | FileID: 1
+ID: 19 | Ref: ATM-WD-3801 | PID: NIBLQO604993 | Amt: -170535.92 | FileID: 1
+ID: 20 | Ref: H-O-PB699-30988 | PID: NIBLJT346065 | Amt: -320233.87 | FileID: 1
+ID: 21 | Ref: H-O-RCV551-90867 | PID: NIBLJF134584 | Amt: 47614.66 | FileID: 1
+ID: 22 | Ref: H-O-RCV701-98082 | PID: NIBLGJ530691 | Amt: 256550.71 | FileID: 1
+ID: 28 | Ref: H-O-RCV123-12346 | PID: NIBLCT869304 | Amt: 37000.00 | FileID: 1
+
+--- Checking ReconMatch ---
+MatchID: PMSBNKCCD074 | BankID: 1 | BrokerID: 1
+MatchID: PMSBNK1E67A3 | BankID: 2 | BrokerID: 2
+MatchID: PMSBNKA34190 | BankID: 3 | BrokerID: 3
+MatchID: PMSBNK89E2FC | BankID: 9 | BrokerID: 10
+MatchID: PMSBNK44F77F | BankID: 10 | BrokerID: 12
+MatchID: PMSBNKFDE45C | BankID: 11 | BrokerID: 13
+MatchID: PMSBNK9C0342 | BankID: 12 | BrokerID: 14
+MatchID: PMSBNKE41E91 | BankID: 14 | BrokerID: 15
+MatchID: PMSBNK1B2B54 | BankID: 15 | BrokerID: 16
+MatchID: PMSBNK523463 | BankID: 16 | BrokerID: 17
+MatchID: PMSBNKFC2F6D | BankID: 17 | BrokerID: 18
+MatchID: PMSBNK884E2C | BankID: 18 | BrokerID: 20
+MatchID: PMSBNK76A3F0 | BankID: 20 | BrokerID: 21
+MatchID: PMSBNK8E16E3 | BankID: 21 | BrokerID: 22
+MatchID: PMSBNKCBE5D5 | BankID: 22 | BrokerID: 23
+MatchID: MAN-EA96F7 | BankID: 8 | BrokerID: 8
