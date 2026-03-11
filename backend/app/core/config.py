@@ -56,7 +56,13 @@ class Settings:
     @property
     def DATABASE_URL(self):
         from urllib.parse import quote_plus
-        return f"postgresql://{quote_plus(self.DB_USER)}:{quote_plus(self.DB_PASSWORD)}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}"
+        user = quote_plus(self.DB_USER)
+        password = quote_plus(self.DB_PASSWORD)
+        # Cloud SQL uses Unix socket paths starting with /cloudsql/
+        if self.DB_HOST.startswith("/cloudsql/"):
+            return f"postgresql://{user}:{password}@/{self.DB_NAME}?host={self.DB_HOST}"
+        # Standard TCP connection (local dev / docker-compose)
+        return f"postgresql://{user}:{password}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}"
 
 # Singleton Instance
 try:

@@ -34,18 +34,22 @@ COPY backend/requirements.txt .
 RUN pip install --no-cache-dir --prefix=/install -r requirements.txt
 
 # =============================================================================
-# Stage 3: Production Image (nginx + uvicorn in one container)
+# Stage 3: Production Image (nginx + python + node in one container)
 # =============================================================================
 FROM python:3.11-slim AS production
 
-# Install nginx and runtime system dependencies
+# Install nginx, Node.js, and runtime system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     nginx \
     libpq5 \
     libmagic1 \
-    clamav \
-    && rm -rf /var/lib/apt/lists/* \
-    && freshclam || true
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Node.js 20.x in the production image (required for Next.js standalone server)
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get install -y --no-install-recommends nodejs \
+    && rm -rf /var/lib/apt/lists/*
 
 # Copy Python packages from backend-builder
 COPY --from=backend-builder /install /usr/local
@@ -57,8 +61,7 @@ COPY backend/ .
 # Create uploads directory
 RUN mkdir -p /app/uploads
 
-# ----- Frontend (static files) -----
-# Copy the standalone Next.js build output
+# ----- Frontend (Next.js standalone server) -----
 COPY --from=frontend-builder /app/.next/standalone /app/frontend
 COPY --from=frontend-builder /app/.next/static /app/frontend/.next/static
 COPY --from=frontend-builder /app/public /app/frontend/public
@@ -77,5 +80,5 @@ RUN chmod +x /app/start.sh
 # Expose Cloud Run required port
 EXPOSE 8080
 
-# Start both services
+# Start all services
 CMD ["/app/start.sh"]
