@@ -1,8 +1,8 @@
-# Ignore git completely
+# Git
 .git
 .gitignore
 
-# Ignore docker-compose
+# Docker Compose (not used in Cloud Run)
 docker-compose*.yml
 docker-compose*.yaml
 
@@ -12,3 +12,32 @@ docker-compose*.yaml
 *.swp
 *.swo
 .DS_Store
+
+# Node
+frontend/node_modules
+frontend/.next
+
+# Python
+backend/__pycache__
+backend/**/__pycache__
+backend/.venv
+backend/venv
+backend/uploads
+backend/*.log
+backend/output
+
+# Test / debug scripts
+backend/tests
+backend/debug_*
+backend/repro_*
+backend/fix_*
+backend/init_*
+backend/run_real_*
+backend/test_*
+
+# Scripts
+scripts/
+
+# Misc
+*.md
+!frontend/README.md
