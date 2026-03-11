@@ -47,8 +47,19 @@ handler.setFormatter(JsonFormatter())
 logging.basicConfig(level=logging.INFO, handlers=[handler])
 logger = logging.getLogger("pms_recon")
 
-# Re-enabled for fresh deployment since we are wiping the DB
-models.Base.metadata.create_all(bind=engine)
+# Create tables with retry logic for Cloud SQL socket availability
+import time as _time
+for _attempt in range(5):
+    try:
+        models.Base.metadata.create_all(bind=engine)
+        logger.info("Database tables verified/created successfully.")
+        break
+    except Exception as _e:
+        logger.warning(f"DB connection attempt {_attempt + 1}/5 failed: {_e}")
+        if _attempt < 4:
+            _time.sleep(3)
+        else:
+            logger.error("All DB connection attempts failed. Starting anyway — endpoints will fail on first request.")
 
 app = FastAPI(title="NIMB PMS Reconciliation Tool", version="2.0.0")
 
