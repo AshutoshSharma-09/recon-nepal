@@ -38,6 +38,9 @@ RUN pip install --no-cache-dir --prefix=/install -r requirements.txt
 # =============================================================================
 FROM python:3.11-slim AS production
 
+# Force Python to flush stdout/stderr immediately (critical for Cloud Run logs)
+ENV PYTHONUNBUFFERED=1
+
 # Install nginx, Node.js, and runtime system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     nginx \
