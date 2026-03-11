@@ -1,3 +1,4 @@
+#start
 steps:
   # Build the unified container image
   - name: 'gcr.io/cloud-builders/docker'
