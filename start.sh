@@ -6,7 +6,7 @@ echo "=== Starting Recon PMS Container ==="
 # Start uvicorn (FastAPI) in the background on port 8000
 echo "Starting FastAPI (uvicorn) on port 8000..."
 cd /app/backend
-uvicorn app.main:app --host 127.0.0.1 --port 8000 --log-level info 2>&1 &
+opentelemetry-instrument uvicorn app.main:app --host 127.0.0.1 --port 8000 --log-level info 2>&1 &
 UVICORN_PID=$!
 
 # Start Next.js standalone server in the background on port 3000
