@@ -33,6 +33,35 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 COPY backend/requirements.txt .
 RUN pip install --no-cache-dir --prefix=/install -r requirements.txt
 
+# OpenTelemetry Packages
+RUN pip install --no-cache-dir --prefix=/install \
+    opentelemetry-distro \
+    opentelemetry-exporter-otlp \
+    opentelemetry-instrumentation-fastapi \
+    opentelemetry-instrumentation-logging \
+    opentelemetry-instrumentation-requests \
+    opentelemetry-instrumentation-urllib3 \
+    opentelemetry-instrumentation-psycopg2-binary
+
+RUN /usr/local/bin/opentelemetry-bootstrap -a install || true
+
+# =============================================================================
+# OpenTelemetry Configuration
+# =============================================================================
+
+ENV OTEL_SERVICE_NAME=my-fastapi-app
+
+ENV OTEL_TRACES_EXPORTER=otlp
+ENV OTEL_METRICS_EXPORTER=otlp
+ENV OTEL_LOGS_EXPORTER=otlp
+
+ENV OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf
+
+# Change during deployment
+ENV OTEL_EXPORTER_OTLP_ENDPOINT=https://obs-dashboard-new-899854330615.us-central1.run.app
+
+ENV OTEL_PYTHON_LOGGING_AUTO_INSTRUMENTATION_ENABLED=true
+
 # =============================================================================
 # Stage 3: Production Image (nginx + python + node in one container)
 # =============================================================================
