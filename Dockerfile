@@ -41,9 +41,17 @@ RUN pip install --no-cache-dir --prefix=/install \
     opentelemetry-instrumentation-logging \
     opentelemetry-instrumentation-requests \
     opentelemetry-instrumentation-urllib3 \
-    opentelemetry-instrumentation-psycopg2-binary
+    opentelemetry-instrumentation-psycopg2
 
-RUN /usr/local/bin/opentelemetry-bootstrap -a install || true
+
+
+# =============================================================================
+# Stage 3: Production Image (nginx + python + node in one container)
+# =============================================================================
+FROM python:3.11-slim AS production
+
+# Force Python to flush stdout/stderr immediately (critical for Cloud Run logs)
+ENV PYTHONUNBUFFERED=1
 
 # =============================================================================
 # OpenTelemetry Configuration
@@ -61,14 +69,7 @@ ENV OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf
 ENV OTEL_EXPORTER_OTLP_ENDPOINT=https://obs-dashboard-new-899854330615.us-central1.run.app
 
 ENV OTEL_PYTHON_LOGGING_AUTO_INSTRUMENTATION_ENABLED=true
-
-# =============================================================================
-# Stage 3: Production Image (nginx + python + node in one container)
-# =============================================================================
-FROM python:3.11-slim AS production
-
-# Force Python to flush stdout/stderr immediately (critical for Cloud Run logs)
-ENV PYTHONUNBUFFERED=1
+# ==============================================================
 
 # Install nginx, Node.js, and runtime system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
